@@ -55,13 +55,18 @@ public abstract class Network {
 				conversion.add(num);
 				binary.set(i,quotient);
 			}
-			
-			
 		}
-		
 		System.out.println(conversion);
 		
-		
+	}
+	public void getBits() {
+		int counter = 0;
+		for(int i=0;i<conversion.size();i++) {
+			if(conversion.get(i)==1) {
+				counter++;
+			}
+		}
+		System.out.println(counter);
 	}
 	
 
