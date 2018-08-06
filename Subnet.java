@@ -1,15 +1,16 @@
 package subnetting;
 
 public class Subnet extends Network {
-	int bits;
+	
 
 	public void verify(String x) {
 		if (x.length() <= 2) {
 			System.out.println("You have entered the number of bits");
-			bits = Integer.parseInt(x);
+			subnetBits = Integer.parseInt(x);
 
 		} else if (x.length() > 2 && x.contains(".")) {
 			System.out.println("You have entered the subnet mask");
+			System.out.println("Subnet converted to binary");
 			convertToBits(x);
 			
 		} else if (x.length() > 3) {
@@ -34,7 +35,13 @@ public class Subnet extends Network {
 		}
 
 		super.convertToBits(net);
+		super.countBits();
+		
 
+	}
+	
+	public int getBits() {
+		return subnetBits;
 	}
 
 }
