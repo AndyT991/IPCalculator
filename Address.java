@@ -6,7 +6,10 @@ public class Address extends Network {
 	
 	String [] split;
 	private int defaultSubnetMask;
-	private ArrayList <Integer> id;
+	ArrayList <Integer> id;
+	ArrayList <Integer> broadcast;
+	ArrayList <Integer> lastAddress;
+	ArrayList <Integer> firstAddress;
 	String[] idInOctet;
 	
 	public void classCheck() {
@@ -28,7 +31,7 @@ public class Address extends Network {
 		else if(IPClass>=224 && IPClass<=239) {
 			System.out.println("Address is Class D, Reserved for multicasting");
 		}
-		
+		System.out.println();
 		
 	}
 	
@@ -51,7 +54,7 @@ public class Address extends Network {
 		
 	}
 	
-	public void findNetworkID(int bits) {
+	public ArrayList<Integer> findNetworkID (int bits) {
 		id = new ArrayList<Integer>(conversion);
 		
 		//System.out.println(bits);
@@ -60,7 +63,31 @@ public class Address extends Network {
 			id.set(bits, 0);
 		}
 		
-		System.out.println(id);
+		//System.out.println(id);
+		return id;
+	}
+	
+	public ArrayList<Integer> findNetworkBroadcast(int bits) {
+		broadcast = new ArrayList<Integer>(conversion);
+		
+		for(int i=0; i<32-bits; bits++) {
+			broadcast.set(bits, 1);
+		}
+		
+		//System.out.println(broadcast);
+		return broadcast;
+	}
+	
+	public ArrayList<Integer> findMaxHost(int bits) {
+		lastAddress = new ArrayList<Integer>(findNetworkBroadcast(bits));
+		lastAddress.set(31,0);
+		return lastAddress;
+	}
+	
+	public ArrayList<Integer> findMinHost(int bits) {
+		firstAddress = new ArrayList<Integer>(findNetworkID(bits));
+		firstAddress.set(31, 1);
+		return firstAddress;
 	}
 	
 	public int getDefaultSubnetMask() {
@@ -73,4 +100,3 @@ public class Address extends Network {
 	
 
 }
-
