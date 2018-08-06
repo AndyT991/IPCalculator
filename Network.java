@@ -1,23 +1,29 @@
 package subnetting;
 
 import java.util.ArrayList;
+
 import java.util.regex.Pattern;
 
 public abstract class Network {
 	
 	protected String[] split;
+	
 	//Main array that holds converted addresses 
 	protected ArrayList <Integer> conversion;
-	protected int bits;
+	
+	protected int subnetBits;
+	
 	protected int length;
 	protected int IPClass;
 	
+	
 	public abstract void verify(String x);
+	
 		
 	//This method uses multiple arrays to 
 	//1st: Convert a string into individual elements
 	//2nd Parse those individual string elements into ints 
-	//3rd 
+	
 	public void convertToBits(String x) {
 		ArrayList<Integer> binary = new ArrayList<Integer>();
 		conversion = new ArrayList<Integer>();
@@ -55,21 +61,63 @@ public abstract class Network {
 		}
 		
 		System.out.println(conversion);
-		System.out.println(conversion.size());
+		//System.out.println(conversion.size());
 		
 	}
 	
 	
-	public void getBits() {
+	public String convertToDecimal(ArrayList<Integer> id) {
+		 
+		String [] octect = new String[4];
+		String convertedFinal;
+		
+		int total=0;
+		int power =128;
+		int add;
 		int counter = 0;
+		
+		for(int i=0;i<4;i++) {
+			int [] holder = new int[8];
+			
+			for(int j=0;j<8;j++) {
+				holder[j]= id.get(counter);
+				counter++;
+			}
+			
+			for(int k=0;k<8;k++) {
+				add = holder[k]*power;
+				power= power/2;
+				total = total + add;
+			}
+			octect[i]=Integer.toString(total);
+			power =128;
+			total = 0;
+			
+		}
+		//This adds periods to the address
+		for(int i=0;i<3;i++) {
+			octect[i]=octect[i]+".";
+		}
+		
+		convertedFinal = String.join("", octect);
+		return convertedFinal;
+		
+	}
+	
+	public void countBits() {
+		int counter = 0;
+		
 		for(int i=0;i<conversion.size();i++) {
 			if(conversion.get(i)==1) {
 				counter++;
 			}
 		}
+		subnetBits = counter;
+		System.out.println("Subnet bits "+subnetBits);
 		
-		System.out.println("Subnet bits "+counter);
-		counter = bits;
 	}
 	
+	
+	
+
 }
